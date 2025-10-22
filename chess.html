@@ -1,0 +1,238 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>💌 Wraken's Invitation</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=Great+Vibes&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg:#efe6d8; /* vintage paper */
+      --accent:#b85b79;
+      --paper:#fbf5ec;
+      --dark:#3b2b2b;
+    }
+    html,body{height:100%;}
+    body{
+      margin:0;display:flex;align-items:center;justify-content:center;
+      background: linear-gradient(180deg,#efe6d8 0%, #e6d0b9 100%);
+      font-family: 'Cormorant Garamond', serif; color:var(--dark);
+      -webkit-font-smoothing:antialiased;
+    }
+    .scene{width:920px;max-width:95%;height:640px;background:var(--paper);
+      box-shadow:0 30px 60px rgba(0,0,0,0.2);border-radius:14px;position:relative;overflow:hidden;
+      border:6px solid rgba(59,43,43,0.06);
+      background-image: linear-gradient(transparent, rgba(0,0,0,0.02));
+    }
+    header{padding:28px 40px;display:flex;align-items:center;gap:18px}
+    .logo{font-size:44px}
+    .subtitle{font-family: 'Great Vibes', cursive;font-size:22px;color:var(--accent);}.center{height:100%;display:flex;align-items:center;justify-content:center;flex-direction:column}
+
+/* envelope */
+.envelope-wrap{position:relative;width:360px;height:260px;cursor:pointer;display:flex;align-items:center;justify-content:center}
+.envelope{width:320px;height:200px;background:#fdeee9;border-radius:8px;border:3px solid #cdaaa3;position:relative;box-shadow:0 8px 18px rgba(0,0,0,0.12);transform-origin:center;transition:transform .9s cubic-bezier(.2,.9,.2,1),opacity .4s}
+.envelope .flap{position:absolute;top:-28px;left:0;right:0;height:60px;background:linear-gradient(180deg,#f7dfe0,#f0cfcf);border:3px solid #cdaaa3;border-bottom:none;border-top-left-radius:8px;border-top-right-radius:8px;display:flex;align-items:center;justify-content:center}
+.heart{font-size:40px}
+.shadow{position:absolute;left:50%;transform:translateX(-50%);bottom:8px;width:200px;height:14px;background:radial-gradient(closest-side,rgba(0,0,0,0.25),transparent);border-radius:50%}
+
+/* flap open */
+.envelope.open{transform:translateY(-18px) rotateX(8deg) scale(1.02)}
+.envelope.open .flap{transform-origin:top center;transform:translateY(-36px) rotateX(160deg);transition:transform .9s ease}
+
+/* message modal */
+.modal{position:absolute;left:40px;top:120px;width:420px;padding:20px;background:rgba(255,250,242,0.98);border:2px solid rgba(59,43,43,0.06);box-shadow:0 12px 30px rgba(0,0,0,0.12);border-radius:10px}
+.bubble{font-size:18px;margin-bottom:12px}
+.btn{display:inline-block;padding:8px 14px;border-radius:8px;background:var(--accent);color:white;text-decoration:none;cursor:pointer;border:none;font-weight:600}
+
+/* cupid */
+.cupid{position:absolute;left:560px;top:180px;width:160px;height:160px;pointer-events:none}
+.cupid svg{width:100%;height:100%}
+.fly{animation:fly 1.2s ease forwards}
+@keyframes fly{0%{transform:translateX(0) translateY(0) rotate(-10deg)}50%{transform:translateX(-160px) translateY(-40px) rotate(-6deg)}100%{transform:translateX(-300px) translateY(-70px) rotate(-2deg)}}
+
+/* letter popup */
+.letter-popup{position:absolute;left:160px;top:80px;width:560px;max-width:82%;background:linear-gradient(180deg,#fffdf6,#fff6ea);padding:26px;border-radius:10px;border:3px solid rgba(59,43,43,0.06);box-shadow:0 30px 70px rgba(0,0,0,0.25);opacity:0;transform:scale(.92) translateY(12px);transition:all .5s cubic-bezier(.2,.9,.2,1);font-size:18px}
+.letter-popup.show{opacity:1;transform:scale(1) translateY(0)}
+.letter-title{font-family:'Great Vibes';font-size:36px;color:var(--accent);margin-bottom:6px}
+.letter-body{white-space:pre-wrap;line-height:1.6;color:#3b2b2b;padding:10px;background:transparent;border-radius:6px}
+.close-small{display:inline-block;margin-top:12px;font-weight:600;cursor:pointer;color:var(--accent)}
+
+/* typing cursor effect */
+.typed{font-family:inherit;min-height:220px;}
+.controls{position:absolute;right:24px;top:18px}
+.playmusic{background:transparent;border:2px solid var(--accent);padding:8px 12px;border-radius:8px;color:var(--accent);cursor:pointer}
+
+/* kissing gif (CSS animated "dudu") */
+.kissing{position:absolute;left:50%;transform:translateX(-50%);bottom:40px;width:240px;height:140px;background:linear-gradient(180deg,#fff3f8,#fff6f9);border-radius:12px;display:flex;align-items:center;justify-content:center;box-shadow:0 20px 40px rgba(0,0,0,0.12);opacity:0;pointer-events:none}
+.kissing.show{opacity:1;pointer-events:auto;transition:opacity .6s}
+.kissing .pair{display:flex;gap:18px;align-items:center}
+.face{width:86px;height:86px;border-radius:50%;background:#f6d1d8;display:flex;align-items:center;justify-content:center;position:relative;font-size:36px}
+.face:after{content:'❤';position:absolute;right:6px;bottom:8px;font-size:18px;opacity:0;transform:translateY(6px);animation:pop 1s infinite}
+@keyframes pop{0%{opacity:0;transform:translateY(6px)}50%{opacity:1;transform:translateY(0)}100%{opacity:0;transform:translateY(-8px)}}
+
+footer{position:absolute;bottom:12px;left:20px;right:20px;display:flex;justify-content:space-between;align-items:center;font-size:13px;color:#6b5a55}
+
+/* small responsive tweaks */
+@media (max-width:700px){.scene{height:760px;padding-bottom:40px}.envelope-wrap{transform:scale(.9)}}
+
+  </style>
+</head>
+<body>
+  <div class="scene" role="application">
+    <header>
+      <div class="logo">💌</div>
+      <div>
+        <div class="subtitle">A Letter from Wraken</div>
+        <div style="font-size:12px;color:#7a6b6b">Vintage • Elegant • For Red</div>
+      </div>
+      <div class="controls" style="margin-left:auto">
+        <button id="musicToggle" class="playmusic">Play Music</button>
+      </div>
+    </header><div class="center">
+  <div class="envelope-wrap" id="envelopeWrap" title="Click the heart">
+    <div class="envelope" id="envelope">
+      <div class="flap"><span class="heart">💖</span></div>
+    </div>
+    <div class="shadow"></div>
+  </div>
+
+  <div id="modal" class="modal" aria-live="polite">
+    <div class="bubble" id="bubbleText">Click the heart to begin...</div>
+    <button id="startBtn" class="btn">Click the Heart 💘</button>
+  </div>
+</div>
+
+<div class="cupid" id="cupidArea" aria-hidden="true">
+  <!-- simple cupid as svg arrow/character -->
+  <svg viewBox="0 0 100 100">
+    <g id="cupid" transform="translate(0,0)">
+      <circle cx="18" cy="20" r="10" fill="#fff0f2" stroke="#c77" stroke-width="1.5"/>
+      <path d="M10 32c8 6 20 6 28 0" stroke="#c77" stroke-width="2" fill="none"/>
+      <rect x="20" y="30" width="42" height="6" fill="#a86" transform="rotate(-12 20 32)"/>
+      <path d="M66 28 L92 10" stroke="#6b2" stroke-width="2"/>
+    </g>
+  </svg>
+</div>
+
+<div class="letter-popup" id="letter">
+  <div class="letter-title">For You, Bubba</div>
+  <div class="letter-body typed" id="letterBody"></div>
+  <div><span id="closeSmall" class="close-small">Close this letter.</span></div>
+</div>
+
+<div class="kissing" id="kissing">
+  <div class="pair">
+    <div class="face">(•ᴗ•)</div>
+    <div class="face">(•ᴗ•)</div>
+  </div>
+</div>
+
+<footer>
+  <div>Made with ♥ by Wraken</div>
+  <div style="font-size:11px">Vintage theme • Elegant font</div>
+</footer>
+
+<!-- youtube iframe (hidden) -->
+<iframe id="ytplayer" width="1" height="1" src="https://www.youtube.com/embed/IwElYQMUt7M?si=oMndbpyOhw2IIxxu&autoplay=1&loop=1&playlist=IwElYQMUt7M" title="YouTube video player" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen style="display:none"></iframe>
+
+  </div><script>
+  // messages sequence
+  const messages = [
+    'Are you Red?','Are you my Red?','Are you Wraken\'s Red?','Are you Wraken\'s Bootiful Bubba?','Sure na sure?','Gesi, wag ka iiyak ha! Napasukan na ng virus yang selpun mo! 😈','Joke langggg!'
+  ];
+  const longLetter = Hi, bubba! Birthday ko ngayon pero dahil special ka may regalo ako sayo.\n\n10months na simula nung magkausap tayo sa omegle me. Noong una, ayaw ko talaga sayo kasi ang sungit sungit mo, pero nung lumipas yung mga araw na nakakausap kita nakita ko naman na mabait at sadyang mailap ka pa lang. Sa loob ng sampong buwan, masasabi ko na lamang yung saya ko kesa sa tampo sayo dahil mas napapasaya mo ako kahit na kadalasan napakadull ng mga pinag-uusapan natin, walang mga sense, pero di mo ako ginoghost nyahahaha.\n\nSorry din bubba kung palagi na akong nakakatulog nitong mga nakaraang buwan, masyado lang kasi akong pagod at tulog nalang talaga pahinga ko. Gusto ko lang sahihin na kung nagtatampo ka sakin, wag na pls! Hindi ako magaling mag-express ng nararamdaman ko kaya sana magets mo to kahit wala namang saysay. Ayon lang, birthday gift ko to sayo dahil good girl ka!;
+
+  const modal = document.getElementById('modal');
+  const bubbleText = document.getElementById('bubbleText');
+  const startBtn = document.getElementById('startBtn');
+  const envelope = document.getElementById('envelope');
+  const envelopeWrap = document.getElementById('envelopeWrap');
+  const cupid = document.getElementById('cupid');
+  const cupidArea = document.getElementById('cupidArea');
+  const letter = document.getElementById('letter');
+  const letterBody = document.getElementById('letterBody');
+  const closeSmall = document.getElementById('closeSmall');
+  const kissing = document.getElementById('kissing');
+  const yt = document.getElementById('ytplayer');
+  const musicToggle = document.getElementById('musicToggle');
+
+  let idx = 0;
+
+  function showNextMessage(){
+    if(idx < messages.length){
+      bubbleText.textContent = messages[idx];
+      idx++;
+      startBtn.textContent = 'Next';
+    } else {
+      // final action: show envelope open & cupid
+      modal.style.display = 'none';
+      envelope.classList.add('open');
+      // animate cupid
+      cupidArea.style.opacity = 1;
+      setTimeout(()=>{cupidArea.querySelector('svg').classList.add('fly')},300);
+      // show letter after cupid flies
+      setTimeout(()=>{openLetter();},1400);
+    }
+  }
+
+  startBtn.addEventListener('click', showNextMessage);
+  envelopeWrap.addEventListener('click', ()=>{ if(modal.style.display !== 'none') showNextMessage(); });
+
+  // typing effect for the letter body
+  function typeText(text, el, speed=18){
+    el.textContent = '';
+    let i=0; function step(){
+      if(i<text.length){ el.textContent += text[i++]; setTimeout(step,speed);} }
+    step();
+  }
+
+  function openLetter(){
+    letter.classList.add('show');
+    // intense reveal (scale/pulse)
+    letter.animate([{transform:'scale(.95) translateY(6px)'},{transform:'scale(1.02) translateY(-6px)'},{transform:'scale(1) translateY(0)'}],{duration:520,easing:'ease-out'});
+    // typed text
+    typeText(longLetter, letterBody, 18);
+    // try to play the youtube iframe (may be blocked) — we'll reveal play button
+    try{ yt.style.display='block'; /* hidden but present */ }catch(e){}
+    // automatically show a small play hint
+    setTimeout(()=>{musicToggle.textContent = 'Play Music';},400);
+  }
+
+  closeSmall.addEventListener('click', ()=>{
+    letter.classList.remove('show');
+    envelope.classList.remove('open');
+    // show kissing gif style
+    kissing.classList.add('show');
+    // hide kissing after some seconds
+    setTimeout(()=>{ kissing.classList.remove('show'); },12000);
+    // stop youtube by hiding iframe
+    try{ yt.style.display='none'; }catch(e){}
+  });
+
+  // music control: toggle visibility of iframe (some browsers block autoplay)
+  let playing=false;
+  musicToggle.addEventListener('click', ()=>{
+    playing = !playing;
+    if(playing){
+      yt.style.display='block';
+      musicToggle.textContent='Music: On';
+    } else {
+      yt.style.display='none';
+      musicToggle.textContent='Music: Off';
+    }
+  });
+
+  // accessibility: keyboard support
+  document.addEventListener('keydown', (e)=>{
+    if(e.key==='Enter'){
+      if(modal.style.display !== 'none') showNextMessage();
+    }
+  });
+
+  // initial gentle animation
+  setTimeout(()=>{
+    envelope.classList.add('wobble');
+  },400);
+</script></body>
+</html>
