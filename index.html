@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Wraken’s Gift to Red 💌</title>
+  <style>
+    body {
+      background: #fdf6f0;
+      font-family: 'Times New Roman', serif;
+      text-align: center;
+      color: #4b2e1e;
+      overflow-x: hidden;
+      background-image: url('https://i.pinimg.com/736x/4e/69/79/4e69796cb44b2fbbd1b89489b8c6a40f.jpg');
+      background-size: cover;
+      background-position: center;
+    }
+
+    h1 {
+      margin-top: 50px;
+      font-size: 50px;
+      color: #b86b77;
+    }
+
+    .heart {
+      font-size: 80px;
+      cursor: pointer;
+      transition: transform 0.3s ease;
+    }
+
+    .heart:hover {
+      transform: scale(1.2);
+    }
+
+    #message {
+      font-size: 25px;
+      margin-top: 40px;
+      color: #5a3e36;
+      background-color: rgba(255, 255, 255, 0.7);
+      display: inline-block;
+      padding: 15px 25px;
+      border-radius: 15px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.2);
+      font-family: 'Cursive', cursive;
+    }
+
+    #letter {
+      display: none;
+      margin: 50px auto;
+      width: 80%;
+      max-width: 600px;
+      background-color: #fffaf5;
+      border: 2px solid #d4a373;
+      border-radius: 10px;
+      box-shadow: 0 0 25px rgba(0,0,0,0.2);
+      padding: 30px;
+      text-align: left;
+      font-size: 18px;
+      line-height: 1.8;
+      animation: fadeIn 2s ease forwards;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: scale(0.95); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    #closeBtn {
+      display: block;
+      margin-top: 20px;
+      text-align: center;
+      font-style: italic;
+      color: #a15555;
+      cursor: pointer;
+    }
+
+    #gif {
+      display: none;
+      margin-top: 30px;
+    }
+
+    iframe {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <h1>💌</h1>
+  <div id="message">Click the heart 💌</div>
+
+  <iframe id="music" width="0" height="0" src="https://www.youtube.com/embed/IwElYQMUt7M?si=oMndbpyOhw2IIxxu&autoplay=1&loop=1&playlist=IwElYQMUt7M"></iframe>
+
+  <script>
+    const msgs = [
+      "Are you Red?",
+      "Are you my Red?",
+      "Are you Wraken's Red?",
+      "Are you Wraken's Bootiful Bubba?",
+      "Sure na sure?",
+      "Gesi, wag ka iiyak ha! Napasukan na ng virus yang selpun mo! 😈",
+      "Joke langggg!"
+    ];
+
+    let index = 0;
+    const msgDiv = document.getElementById("message");
+
+    msgDiv.addEventListener("click", () => {
+      if (index < msgs.length) {
+        msgDiv.innerHTML = msgs[index];
+        index++;
+      } else {
+        msgDiv.style.display = "none";
+        showLetter();
+      }
+    });
+
+    function showLetter() {
+      const letter = document.createElement("div");
+      letter.id = "letter";
+      letter.innerHTML = `
+        <p>Hi, bubba! Birthday ko ngayon pero dahil special ka may regalo ako sayo.</p>
+        <p>10 months na simula nung magkausap tayo sa Omegle me. Noong una, ayaw ko talaga sayo kasi ang sungit sungit mo, pero nung lumipas yung mga araw na nakakausap kita nakita ko naman na mabait at sadyang mailap ka pa lang.</p>
+        <p>Sa loob ng sampong buwan, masasabi ko na lamang yung saya ko kesa sa tampo sayo dahil mas napapasaya mo ako kahit na kadalasan napakadull ng mga pinag-uusapan natin, walang mga sense, pero di mo ako ginoghost nyahahaha.</p>
+        <p>Sorry din bubba kung palagi na akong nakakatulog nitong mga nakaraang buwan, masyado lang kasi akong pagod at tulog nalang talaga pahinga ko. Gusto ko lang sabihin na kung nagtatampo ka sakin, wag na pls! Hindi ako magaling mag-express ng nararamdaman ko kaya sana magets mo to kahit wala namang saysay.</p>
+        <p>Ayon lang, birthday gift ko to sayo dahil good girl ka!</p>
+        <span id="closeBtn">Close this letter.</span>
+      `;
+      document.body.appendChild(letter);
+      letter.style.display = "block";
+
+      document.getElementById("closeBtn").addEventListener("click", () => {
+        letter.style.display = "none";
+        showGif();
+      });
+    }
+
+    function showGif() {
+      const gif = document.createElement("img");
+      gif.id = "gif";
+      gif.src = "https://media.tenor.com/MRzthcVdF60AAAAi/kiss.gif"; // Dudu kissing gif
+      gif.style.display = "block";
+      gif.style.width = "200px";
+      gif.style.margin = "0 auto";
+      document.body.appendChild(gif);
+    }
+  </script>
+</body>
+</html>
